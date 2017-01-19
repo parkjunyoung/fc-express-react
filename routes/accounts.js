@@ -73,6 +73,10 @@ router.get('/logout', function(req, res){
     res.redirect('/accounts/login');
 });
 
+router.get('/status', function(req, res){
+    res.json({ isLogin : req.isAuthenticated() });
+});
+
 
 
 
