@@ -12,6 +12,9 @@ var flash = require('connect-flash');
 var passport = require('passport');
 var session = require('express-session');
 
+//session store 생성 -> mongosotre 사용
+var connectMongo = require('connect-mongo');
+var MongoStore = connectMongo(session);
 
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -58,7 +61,11 @@ var sessionMiddleWare = session({
     saveUninitialized: true,
     cookie: {
       maxAge: 2000 * 60 * 60 //지속시간 2시간
-    }
+    },
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      ttl: 14 * 24 * 60 * 60
+    })
 });
 app.use(sessionMiddleWare);
  
